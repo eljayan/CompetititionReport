@@ -1,3 +1,6 @@
+import sun.dc.path.PathError;
+
+import javax.sound.midi.SysexMessage;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +29,14 @@ public class CategorySetter {
         Pattern license0 = Pattern.compile("490700\\d+", Pattern.CASE_INSENSITIVE);
         Pattern license1 = Pattern.compile("852349\\d+", Pattern.CASE_INSENSITIVE);
         Pattern license2 = Pattern.compile("852351\\d+", Pattern.CASE_INSENSITIVE);
-        List<Pattern>patternsLicense = Arrays.asList(license0, license1,license2);
+        Pattern license3 = Pattern.compile("(software|licencia)", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsLicense = Arrays.asList(license0, license1,license2, license3);
 
         //cameras
-        Pattern camera0 = Pattern.compile("852349\\d+", Pattern.CASE_INSENSITIVE);
-        List<Pattern>patternsCamera = Arrays.asList(camera0);
+        Pattern camera0 = Pattern.compile("852580\\d+", Pattern.CASE_INSENSITIVE);
+        Pattern camera1 = Pattern.compile("vigilancia\\w+", Pattern.CASE_INSENSITIVE);
+        Pattern camera2 = Pattern.compile("c\\wmara\\w*[^(celular)]*]", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsCamera = Arrays.asList(camera0, camera1, camera2);
 
         //decoders
         Pattern decoder0 = Pattern.compile("852871\\d+", Pattern.CASE_INSENSITIVE);
@@ -41,10 +47,11 @@ public class CategorySetter {
         Pattern cabinet1 = Pattern.compile("8538\\d+", Pattern.CASE_INSENSITIVE);
         Pattern cabinet2 = Pattern.compile("940320\\d+", Pattern.CASE_INSENSITIVE);
         Pattern cabinet3 = Pattern.compile("gabinete\\s[de, para]", Pattern.CASE_INSENSITIVE);
-        Pattern cabinet4 = Pattern.compile("rack\\s+[de, para, equipo]*", Pattern.CASE_INSENSITIVE);
+        Pattern cabinet4 = Pattern.compile("chasis\\s[de, para]", Pattern.CASE_INSENSITIVE);
         Pattern cabinet5 = Pattern.compile("rack\\s+[de, para, equipo]*", Pattern.CASE_INSENSITIVE);
+        Pattern cabinet6 = Pattern.compile("rack\\s+[de, para, equipo]*", Pattern.CASE_INSENSITIVE);
         List<Pattern>patternsCabinet = Arrays.asList(cabinet0, cabinet1, cabinet2, cabinet3,
-                cabinet4, cabinet5);
+                cabinet4, cabinet5, cabinet6);
 
 
         //cable optical
@@ -65,12 +72,17 @@ public class CategorySetter {
         Pattern cell0 = Pattern.compile("851712\\d+", Pattern.CASE_INSENSITIVE);
         List<Pattern>patternsCell = Arrays.asList(cell0);
 
+        //tablet
+        Pattern tablet0 = Pattern.compile("tablet\\w*", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsTablet = Arrays.asList(tablet0);
+
         //sistemas de poder
         Pattern power0 = Pattern.compile("850440\\d+", Pattern.CASE_INSENSITIVE);
-        Pattern power1 = Pattern.compile("sistema\\s+.+poder", Pattern.CASE_INSENSITIVE);
+        Pattern power1 = Pattern.compile("sistema\\w*.+poder", Pattern.CASE_INSENSITIVE);
         Pattern power2 = Pattern.compile("rectificador", Pattern.CASE_INSENSITIVE);
         Pattern power3 = Pattern.compile("modulo\\s+.poder", Pattern.CASE_INSENSITIVE);
-        List<Pattern>patternsPower = Arrays.asList(power0, power1, power2, power3);
+        Pattern power4 = Pattern.compile("energ\\wa", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsPower = Arrays.asList(power0, power1, power2, power3, power4);
 
         //estacion base
         Pattern baseStation0 = Pattern.compile("851761\\d+", Pattern.CASE_INSENSITIVE);
@@ -78,20 +90,52 @@ public class CategorySetter {
         Pattern baseStation2 = Pattern.compile("(BBU|RRU)", Pattern.CASE_INSENSITIVE);
         Pattern baseStation3 = Pattern.compile("banda\\s\\w*base", Pattern.CASE_INSENSITIVE);
         Pattern baseStation4 = Pattern.compile("radio\\s\\w*remota", Pattern.CASE_INSENSITIVE);
-        List<Pattern>patternsDBS = Arrays.asList(baseStation0, baseStation1, baseStation2, baseStation3, baseStation4);
+        Pattern baseStation5 = Pattern.compile("radio\\sbase", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsDBS = Arrays.asList(baseStation0, baseStation1, baseStation2,
+                baseStation3, baseStation4, baseStation5);
 
         //servidores
         Pattern server0 = Pattern.compile("servidor\\w*", Pattern.CASE_INSENSITIVE);
         Pattern server1 = Pattern.compile("server", Pattern.CASE_INSENSITIVE);
         Pattern server2 = Pattern.compile("storage", Pattern.CASE_INSENSITIVE);
-        List<Pattern>patternsServers = Arrays.asList(server0, server1, server2);
+        Pattern server3 = Pattern.compile("disco\\sduro", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsServers = Arrays.asList(server0, server1, server2, server3);
 
         //Microondas
         Pattern micro0 = Pattern.compile("microonda", Pattern.CASE_INSENSITIVE);
         Pattern micro1 = Pattern.compile("microwave", Pattern.CASE_INSENSITIVE);
-        Pattern micro2 = Pattern.compile("antenna", Pattern.CASE_INSENSITIVE);
-        List<Pattern>patternsMicrowave = Arrays.asList(micro0, micro1, micro2);
+        Pattern micro2 = Pattern.compile("anten?na", Pattern.CASE_INSENSITIVE);
+        Pattern micro3 = Pattern.compile("\\bodu\\b", Pattern.CASE_INSENSITIVE);
+        Pattern micro4 = Pattern.compile("parabol", Pattern.CASE_INSENSITIVE);
+        List<Pattern>patternsMicrowave = Arrays.asList(micro0, micro1, micro2, micro3);
 
+        //switch and router
+        Pattern router0 = Pattern.compile("equipo", Pattern.CASE_INSENSITIVE);
+        Pattern router1 = Pattern.compile("tarjeta.*[^(celular)]]", Pattern.CASE_INSENSITIVE);
+        Pattern router2 = Pattern.compile("board", Pattern.CASE_INSENSITIVE);
+        Pattern router3 = Pattern.compile("interf\\w+", Pattern.CASE_INSENSITIVE);
+        Pattern router4 = Pattern.compile("transmisi\\w+", Pattern.CASE_INSENSITIVE);
+        Pattern router5 = Pattern.compile("ruteador", Pattern.CASE_INSENSITIVE);
+        Pattern router6 = Pattern.compile("conmut\\w+", Pattern.CASE_INSENSITIVE);
+        Pattern router7 = Pattern.compile("electr\\wnic\\w+", Pattern.CASE_INSENSITIVE);
+        Pattern router8 = Pattern.compile("s\\w+t\\w?ch", Pattern.CASE_INSENSITIVE);
+        Pattern router9 = Pattern.compile("unidad\\s\\w+\\s+'*proces\\w+", Pattern.CASE_INSENSITIVE);
+        Pattern router10 = Pattern.compile("sistema\\sde", Pattern.CASE_INSENSITIVE);
+        Pattern router11 = Pattern.compile("modem", Pattern.CASE_INSENSITIVE);
+        Pattern router12 = Pattern.compile("telec\\w+on", Pattern.CASE_INSENSITIVE);
+        Pattern router13 = Pattern.compile("tr\\w+ns\\w+e\\w+r", Pattern.CASE_INSENSITIVE);
+        Pattern router14 = Pattern.compile("multiplex", Pattern.CASE_INSENSITIVE);
+        Pattern router15 = Pattern.compile("procesa", Pattern.CASE_INSENSITIVE);
+        Pattern router16 = Pattern.compile("\\bLTE\\b", Pattern.CASE_INSENSITIVE);
+        Pattern router17 = Pattern.compile("s\\wste\\w+\\sintegrado", Pattern.CASE_INSENSITIVE);
+        Pattern router18 = Pattern.compile("router", Pattern.CASE_INSENSITIVE);
+        Pattern router19 = Pattern.compile("modulo", Pattern.CASE_INSENSITIVE);
+        Pattern router20 = Pattern.compile("aparato", Pattern.CASE_INSENSITIVE);
+
+        List<Pattern>patternsRouter = Arrays.asList(router0, router1,router2, router3,
+                router4, router5, router6, router7, router8, router9, router10, router11,
+                router12, router13, router14, router15, router16, router17, router18,
+                router19, router20);
 
         //crear diccionario de categorias y regexes
         categories.put("BATTERIES", patternsBatery);
@@ -102,10 +146,12 @@ public class CategorySetter {
         categories.put("CABLE OPTICAL", patternsCableOptical);
         categories.put("CABLE OTHER", patternsCable);
         categories.put("MOBILE PHONE", patternsCell);
+        categories.put("TABLET", patternsTablet);
         categories.put("POWER SYSTEM", patternsPower);
         categories.put("BASE STATION", patternsDBS);
         categories.put("SERVERS", patternsServers);
         categories.put("MICROWAVE", patternsMicrowave);
+        categories.put("SWITCHING AND ROUTING", patternsRouter);
 
     }
 
@@ -129,3 +175,10 @@ public class CategorySetter {
         return "OTHER PRODUCTS";
     }
 }
+//
+//class testing{
+//    public static void main(String[] args) {
+//        CategorySetter categorySetter = new CategorySetter();
+//        System.out.println(categorySetter.findCategory("servidores"));
+//    }
+//}

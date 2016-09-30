@@ -45,9 +45,10 @@ def readFile(sheetObject, dbcollection):
     for nrow in range (2, sheetObject.max_row):
 
         #  primero busca el refrendo, y si ya esta ingresado, pasa a la siguiente fila
-        refrendo = unicode(sheetObject.cell(row=nrow, column=COLREFRENDO).value).strip()
-        if dbcollection.find({"REFRENDO": refrendo}).count() > 0:
-            continue
+        #refrendo = unicode(sheetObject.cell(row=nrow, column=COLREFRENDO).value).strip()
+        #if dbcollection.find({"REFRENDO": refrendo}).count() > 0:
+        #    continue
+
 
         #  contiene todos los valores de una fila
         data = {}

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Categorization:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Categorization_jar</output-path>
+    <root id="archive" name="Categorization.jar">
+      <element id="module-output" name="Categorization" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/mongo-java-driver-3.3.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

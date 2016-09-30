@@ -11,7 +11,8 @@ db.Competidores.aggregate([
   							  		  month:{$month:"$FECHA DESPACHO"},
   							  		  product_category:"$PRODUCT_CATEGORY"
   							  		},  							  		
-  							  		total_imports:{$sum:"$CIF U$S"}
+  							  		total_imports:{$sum:"$CIF U$S"},
+  							  		toal_quantity:{$sum:"$UNIDADES"}
   							  		}
   							}
   							])
