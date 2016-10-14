@@ -8,8 +8,9 @@ db.Competidores.aggregate([
 							  $group:{
   							  		_id:{
   							  		  Company:"$COMPETITOR_NAME", 
-  							  		  month:{$month:"$FECHA DESPACHO"},
-  							  		  product_category:"$PRODUCT_CATEGORY"
+  							  		  product_category:"$PRODUCT_CATEGORY",
+  							  		  month:{$month:"$FECHA DESPACHO"}
+  							  		  
   							  		},  							  		
   							  		total_imports:{$sum:"$CIF U$S"},
   							  		toal_quantity:{$sum:"$UNIDADES"}
